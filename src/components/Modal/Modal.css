@@ -28,7 +28,7 @@
     background-color: white;
     border-radius: 8px;
     max-width: 80%;
-    max-height: 80%;
+    /* max-height: 80%; */
     overflow: auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     background-color: #DCD7C9;

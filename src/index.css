@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components{
+    .pri-btn {
+        background-color: #d5d3d1;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-radius: 0.375rem;
+        border-width: 1px;
+        border-color: #98a7bb;
+        transition-property: all;
+        transition-duration: 0.3s;
+    }
+    
+    .pri-btn:hover {
+        background-color: #334c71;
+        /* color: #ffffff; */
+    }
+    
+}
+
 #root {
     background-color: #f1f5f9;
 }

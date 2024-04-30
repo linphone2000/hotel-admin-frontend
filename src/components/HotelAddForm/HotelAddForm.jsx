@@ -1,12 +1,16 @@
-import { useRef, useState } from "react";
-import { useData } from "../../context/DataContext";
+// React
 import axios from "axios";
+import { useRef, useState } from "react";
+// Context
+import { useData } from "../../context/DataContext";
 import { useUIModal } from "../../context/UIModalContext";
+// CSS
+import "./HotelAddForm.css";
 
 const HotelAddForm = () => {
   // Context
-  const { flaskAPI } = useData();
-  const { showToast } = useUIModal();
+  const { flaskAPI, fetchHotels } = useData();
+  const { showToast, handleCloseModal } = useUIModal();
 
   // States
   const [image, setImage] = useState(null);
@@ -56,6 +60,20 @@ const HotelAddForm = () => {
     fileInputRef.current.click();
   };
 
+  const resetForm = () => {
+    nameRef.current.value = "";
+    cityRef.current.value = "";
+    addressRef.current.value = "";
+    descriptionRef.current.value = "";
+    ratingRef.current.value = "";
+    checkInTimeRef.current.value = "";
+    checkOutTimeRef.current.value = "";
+    hotelEmailRef.current.value = "";
+    hotelPhoneRef.current.value = "";
+    setImage(null);
+    setAmenities([]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -78,6 +96,9 @@ const HotelAddForm = () => {
       if (response.status != 200) {
         showToast("error", "Hotel Already Exists!");
       } else {
+        handleCloseModal();
+        fetchHotels();
+        resetForm();
         showToast("success", "Hotel Created!");
       }
     } catch (error) {
@@ -86,10 +107,14 @@ const HotelAddForm = () => {
   };
 
   return (
-    <form className="p-6" onSubmit={handleSubmit}>
-      <div className="flex gap-4">
+    <>
+      <div className="text-center py-3">
+        <h1 className="text-lg font-bold">Add a new hotel</h1>
+      </div>
+      <hr className="border-t border-gray-100 w-full" />
+      <form className="px-12 py-4" onSubmit={handleSubmit}>
         {/* Left */}
-        <div className="w-1/2">
+        <div className="grid grid-cols-2 gap-2">
           <div className="mb-4">
             <label className="block mb-2">Name:</label>
             <input
@@ -117,18 +142,8 @@ const HotelAddForm = () => {
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block mb-2">Description:</label>
-            <textarea
-              ref={descriptionRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full h-32"
-              required
-            ></textarea>
-          </div>
-        </div>
 
-        {/* Right */}
-        <div className="w-1/2">
+          {/* Right */}
           <div className="mb-4">
             <label className="block mb-2">Rating:</label>
             <input
@@ -141,104 +156,119 @@ const HotelAddForm = () => {
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block mb-2">Check-in Time:</label>
-            <input
-              type="time"
-              ref={checkInTimeRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
-              required
-            />
+
+          {/* Check in & out */}
+          <div className="flex gap-2">
+            <div className="mb-4 w-full">
+              <label className="block mb-2">Check-in Time:</label>
+              <input
+                type="time"
+                ref={checkInTimeRef}
+                className="border border-gray-300 px-4 py-2 rounded-md w-full"
+                required
+              />
+            </div>
+            <div className="mb-4 w-full">
+              <label className="block mb-2">Check-out Time:</label>
+              <input
+                type="time"
+                ref={checkOutTimeRef}
+                className="border border-gray-300 px-4 py-2 rounded-md w-full"
+                required
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label className="block mb-2">Check-out Time:</label>
-            <input
-              type="time"
-              ref={checkOutTimeRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
-              required
-            />
+          {/* Contact */}
+          <div className=" flex gap-2">
+            <div className="mb-4">
+              <label className="block mb-2">Hotel Email:</label>
+              <input
+                type="email"
+                ref={hotelEmailRef}
+                className="border border-gray-300 px-4 py-2 rounded-md w-full"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block mb-2">Hotel Phone:</label>
+              <input
+                type="tel"
+                ref={hotelPhoneRef}
+                className="border border-gray-300 px-4 py-2 rounded-md w-full"
+                required
+              />
+            </div>
           </div>
+
           <div className="mb-4">
-            <label className="block mb-2">Hotel Email:</label>
-            <input
-              type="email"
-              ref={hotelEmailRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+            <label className="block mb-2">Description:</label>
+            <textarea
+              ref={descriptionRef}
+              className="border border-gray-300 px-4 py-2 rounded-md w-full "
               required
-            />
+            ></textarea>
           </div>
-          <div className="mb-4">
-            <label className="block mb-2">Hotel Phone:</label>
-            <input
-              type="tel"
-              ref={hotelPhoneRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
-              required
-            />
+          {/* Image */}
+          <div className="mb-4 flex flex-col justify-center items-center">
+            <label className="block mb-2 text-lg font-semibold">
+              Upload Image:
+            </label>
+            <div className="flex items-center">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageChange}
+                className="opacity-0 w-0"
+                name="hotalImage"
+                required
+              />
+              <button
+                onClick={handleFileUpload}
+                className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-md mr-2"
+              >
+                Choose File
+              </button>
+              {image ? (
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Selected File"
+                  className="w-24 h-12 rounded-md object-cover"
+                />
+              ) : (
+                <span className="text-gray-500">No file chosen</span>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Image */}
-      <div className="mb-4">
-        <label className="block mb-2 text-lg font-semibold">
-          Upload Image:
-        </label>
-        <div className="flex items-center">
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-            className="opacity-0 w-0"
-            name="hotalImage"
-            required
-          />
-          <button
-            onClick={handleFileUpload}
-            className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-md mr-2"
-          >
-            Choose File
-          </button>
-          {image ? (
-            <img
-              src={URL.createObjectURL(image)}
-              alt="Selected File"
-              className="w-24 h-12 rounded-md object-cover"
-            />
-          ) : (
-            <span className="text-gray-500">No file chosen</span>
-          )}
+        {/* Amenities */}
+        <label className="block mb-2">Select Amenities:</label>
+        <div className="mb-4 grid grid-cols-5 gap-1">
+          {predefinedAmenities.map((amenity, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => toggleAmenitySelection(amenity)}
+              className={`border border-gray-300 px-4 py-2 rounded-md transition-colors hover:border-green-500 ${
+                amenities.includes(amenity)
+                  ? "bg-green-500 text-white"
+                  : "bg-white text-gray-700"
+              }`}
+            >
+              {amenity}
+            </button>
+          ))}
         </div>
-      </div>
 
-      {/* Amenities */}
-      <label className="block mb-2">Select Amenities:</label>
-      <div className="mb-4 grid grid-cols-5">
-        {predefinedAmenities.map((amenity, index) => (
-          <button
-            key={index}
-            type="button"
-            onClick={() => toggleAmenitySelection(amenity)}
-            className={`border border-gray-300 px-4 py-2 rounded-md transition-colors hover:border-green-500 ${
-              amenities.includes(amenity)
-                ? "bg-green-500 text-white"
-                : "bg-white text-gray-700"
-            }`}
-          >
-            {amenity}
-          </button>
-        ))}
-      </div>
-
-      {/* Add */}
-      <button
-        type="submit"
-        className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md"
-      >
-        Add Hotel
-      </button>
-    </form>
+        {/* Add */}
+        <button
+          type="submit"
+          className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md"
+        >
+          Add Hotel
+        </button>
+      </form>
+    </>
   );
 };
 

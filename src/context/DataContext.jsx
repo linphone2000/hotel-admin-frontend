@@ -16,6 +16,8 @@ export const DataProvider = ({ children }) => {
   const [rooms, setRooms] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState();
+  const [selectedHotelToDelete, setSelectedHotelToDelete] = useState();
+  const [selectedHotelName, setSelectedHotelName] = useState();
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hotelLoading, setHotelLoading] = useState(true);
@@ -37,8 +39,9 @@ export const DataProvider = ({ children }) => {
     }
   }, [loading]);
 
-  // Fetch hotels
+  // Fetch hotels on page load
   useEffect(() => {
+    // console.log(hotels);
     const fetchHotels = async () => {
       try {
         const response = await axios.get(flaskAPI + "/hotels");
@@ -53,7 +56,19 @@ export const DataProvider = ({ children }) => {
     if (hotelLoading == true) {
       fetchHotels();
     }
-  }, [hotelLoading]);
+  }, [hotelLoading, hotels]);
+
+  // Fetch hotels manual
+  const fetchHotels = async () => {
+    try {
+      const response = await axios.get(flaskAPI + "/hotels");
+      setHotels(response.data);
+    } catch (error) {
+      console.error("Error fetching room:", error);
+    } finally {
+      setHotelLoading(false);
+    }
+  };
 
   // Fetch rooms by hotel ID
   useEffect(() => {
@@ -69,24 +84,29 @@ export const DataProvider = ({ children }) => {
       } catch (error) {
         console.error("Error fetching rooms:", error);
       } finally {
-        setLoading(false); // Set loading to false when data is fetched
+        setLoading(false);
       }
     };
     fetchRoomsByHotelId();
   }, [selectedHotel]);
 
   // Test logging
-  useEffect(() => {
-    // console.log("Hotel: " + selectedHotel);
-  }, [selectedHotel]);
+  // useEffect(() => {
+  //   console.log("Hotel to add room: " + selectedHotel);
+  // }, [selectedHotel]);
 
   // Memo
   const dataContextValue = useMemo(
     () => ({
       rooms,
       hotels,
+      fetchHotels,
       selectedHotel,
       setSelectedHotel,
+      selectedHotelName,
+      setSelectedHotelName,
+      selectedHotelToDelete,
+      setSelectedHotelToDelete,
       selectedRooms,
       setSelectedRooms,
       loading,
@@ -94,7 +114,16 @@ export const DataProvider = ({ children }) => {
       setLoading,
       flaskAPI,
     }),
-    [rooms, hotels, selectedHotel, selectedRooms, loading]
+    [
+      rooms,
+      hotels,
+      selectedHotel,
+      selectedHotelName,
+      selectedRooms,
+      selectedHotelToDelete,
+      hotelLoading,
+      loading,
+    ]
   );
 
   return (
