@@ -43,15 +43,25 @@ const RoomAddForm = () => {
       const response = await axios.post(route, formData);
       showToast("success", response.data.message);
       handleCloseModal();
+      resetForm();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  const resetForm = () => {
+    roomNumber.current.value = "";
+    roomType.current.value = "";
+    description.current.value = "";
+    maxOccupancy.current.value = "";
+    price.current.value = "";
+    setImage(null);
+  };
+
   return (
     <div className="h-full">
       {/* Heading */}
-      <h1 className="py-4 px-10">
+      <h1 className="py-4 px-10 text-lg">
         Add room to <span className="font-bold">{selectedHotelName}</span>
       </h1>
       <hr className=""></hr>

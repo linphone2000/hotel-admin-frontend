@@ -1,7 +1,8 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useData } from "../../context/DataContext";
 import { useEffect, useRef, useState } from "react";
 import { useUIModal } from "../../context/UIModalContext";
+import "./Hotel.css";
 
 const Hotel = () => {
   // Consumer
@@ -59,10 +60,30 @@ const Hotel = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="w-full h-full overflow-x-auto bg-slate-200 transition-all"
+      className="w-full h-full relative overflow-x-auto bg-slate-200 transition-all"
     >
+      <AnimatePresence>
+        {filteredHotels.length === 0 && searchRef.current.value !== "" && (
+          <motion.div
+            initial={{ opacity: 0, y: -1 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -1 }}
+            transition={{ duration: 0.25 }}
+            className="mytoaster z-10 flex absolute transition-all p-4 justify-center items-center w-1/3 bg-slate-50 shadow-lg rounded-lg"
+          >
+            <label className="">
+              <i className="fa-solid fa-exclamation mx-2 text-lg text-red-500"></i>
+              No hotel found with name "
+              <span className="font-bold">{searchRef.current.value}</span>"
+            </label>
+            <button onClick={handleClear} className="absolute top-0 right-2 ml-2 transition-colors hover:text-slate-400">
+              <i className="fa-solid fa-xmark text-lg"></i>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Add hotel and search */}
-      <div className="px-10 py-4 flex justify-between">
+      <div className="px-10 pt-4 relative flex justify-between">
         {/* Search box */}
         <div className="flex items-center mb-4 relative">
           <input
@@ -97,8 +118,11 @@ const Hotel = () => {
           </button>
         </div>
       </div>
-
       {/* Hotels */}
+      <hr className="border-gray-300"></hr>
+      <div className="text-center w-1/2 mx-auto my-4">
+        <label className="font-bold my-2">All Hotel List</label>
+      </div>
       <div className="px-10">
         <table className="w-full bg-white shadow-lg rounded-lg">
           <thead>
@@ -106,7 +130,7 @@ const Hotel = () => {
               <th className="py-3 px-6 text-left">Image</th>
               <th className="py-3 px-6 text-left">Name</th>
               <th className="py-3 px-6 text-left">City</th>
-              <th className="py-3 px-6 text-center">Address</th>
+              <th className="py-3 px-6 text-left">Address</th>
               <th className="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
