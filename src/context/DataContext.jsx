@@ -41,12 +41,10 @@ export const DataProvider = ({ children }) => {
 
   // Fetch hotels on page load
   useEffect(() => {
-    // console.log(hotels);
     const fetchHotels = async () => {
       try {
         const response = await axios.get(flaskAPI + "/hotels");
         setHotels(response.data);
-        // console.log(response.data);
       } catch (error) {
         console.error("Error fetching room:", error);
       } finally {
@@ -56,7 +54,7 @@ export const DataProvider = ({ children }) => {
     if (hotelLoading == true) {
       fetchHotels();
     }
-  }, [hotelLoading, hotels]);
+  }, [hotelLoading]);
 
   // Fetch hotels manual
   const fetchHotels = async () => {
