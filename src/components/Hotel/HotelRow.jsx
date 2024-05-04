@@ -10,25 +10,28 @@ const HotelRow = ({ hotel, index, handleRoomAdd }) => {
 
   // Effect to preload image
   useEffect(() => {
+    console.log("Image loaded");
     if (hotel) {
       const image = new Image();
       image.src = `${flaskAPI}/get_image/${hotel.image}`;
       image.onload = () => {
-        console.log("Image loaded");
         setHotelImage(image);
       };
     }
     return () => {
       setHotelImage(null);
     };
-  }, [hotel]);
+  }, []);
 
   return (
     <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
       <td className="py-3 px-6 text-center">
         {hotelImage == null ? (
           <div className="animate-pulse">
-            <img className="rounded-md h-16 mx-auto w-24 -z-10" src="placeholder.png" />
+            <img
+              className="rounded-md h-16 mx-auto w-24 -z-10"
+              src="placeholder.png"
+            />
           </div>
         ) : (
           <img
