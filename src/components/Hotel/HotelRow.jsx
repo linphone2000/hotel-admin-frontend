@@ -27,8 +27,8 @@ const HotelRow = ({ hotel, index, handleRoomAdd }) => {
     <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
       <td className="py-3 px-6 text-center">
         {hotelImage == null ? (
-          <div className="animate-pulse my-2">
-            <img className="rounded-md h-16 w-24 -z-10" src="placeholder.png" />
+          <div className="animate-pulse">
+            <img className="rounded-md h-16 mx-auto w-24 -z-10" src="placeholder.png" />
           </div>
         ) : (
           <img
@@ -43,12 +43,12 @@ const HotelRow = ({ hotel, index, handleRoomAdd }) => {
       <td className="py-3 px-6 text-left whitespace-nowrap">{hotel.address}</td>
       <td className="py-3 px-6">
         <div className="flex justify-around">
-            {/* Add room */}
+          {/* Add room */}
           <button
             onClick={() => {
               handleRoomAdd(hotel._id, hotel.name);
             }}
-            className="text-slate-950 px-4 py-2 rounded-full border border-green-500 transition-all hover:bg-green-500 flex items-center gap-2"
+            className="text-slate-950 px-4 py-2 rounded-xl border border-green-500 transition-all hover:bg-green-500 flex items-center gap-2"
           >
             <i className="fa-solid fa-plus hover:cursor-pointer"></i>
             <label className="hover:cursor-pointer">Add Room</label>
@@ -59,10 +59,9 @@ const HotelRow = ({ hotel, index, handleRoomAdd }) => {
             onClick={() => {
               handleRoomAdd(hotel._id, hotel.name);
             }}
-            className="text-slate-950 px-4 py-2 rounded-full border border-blue-500 transition-all hover:bg-blue-500 flex items-center gap-2"
+            className="text-slate-950 py-2 px-3 rounded-xl border border-blue-500 transition-all hover:bg-blue-500 flex items-center gap-2"
           >
-            <i className="fa-solid fa-plus hover:cursor-pointer"></i>
-            <label className="hover:cursor-pointer">Edit Hotel</label>
+            <i className="fa-solid fa-pen-to-square hover:cursor-pointer"></i>
           </button>
 
           {/* Delete Hotel */}
@@ -70,10 +69,9 @@ const HotelRow = ({ hotel, index, handleRoomAdd }) => {
             onClick={() => {
               handleRoomAdd(hotel._id, hotel.name);
             }}
-            className="text-slate-950 px-4 py-2 rounded-full border border-red-500 transition-all hover:bg-red-500 flex items-center gap-2"
+            className="text-slate-950 py-2 px-3 rounded-xl border border-red-500 transition-all hover:bg-red-500 flex items-center gap-2"
           >
             <i className="fa-solid fa-trash hover:cursor-pointer"></i>
-            <label className="hover:cursor-pointer">Delete Hotel</label>
           </button>
         </div>
       </td>

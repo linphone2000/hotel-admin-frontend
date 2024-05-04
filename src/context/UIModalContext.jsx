@@ -14,7 +14,7 @@ export const UIModalProvider = ({ children }) => {
   // States
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
-  const [selectedPage, setSelectedPage] = useState("dashboard");
+  const [selectedPage, setSelectedPage] = useState("hotel");
   const [modalForm, setModalForm] = useState();
 
   // Handlers

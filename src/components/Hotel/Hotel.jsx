@@ -37,7 +37,9 @@ const Hotel = () => {
         hotel.name.toLowerCase().includes(query)
       );
       setFilteredHotels(filteredHotels);
-      setIsToasterOpen(true);
+      if (filteredHotels.length == 0) {
+        setIsToasterOpen(true);
+      }
     }
   };
   const handleClear = () => {
@@ -76,7 +78,7 @@ const Hotel = () => {
           >
             Search
           </button>
-          {isToasterOpen && (
+          {searchRef.current.value && (
             <button
               className="absolute right-24 hover:text-red-500 transition-all"
               onClick={handleClear}

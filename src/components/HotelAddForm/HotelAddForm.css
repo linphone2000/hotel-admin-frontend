@@ -2,3 +2,7 @@
     border-color: black;
     border-width: 0.1px;
 }
+
+.react-time-picker__inputGroup__input {
+    width: 50px !important;
+}
