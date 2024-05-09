@@ -11,6 +11,8 @@ const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const flaskAPI = "http://localhost:5001";
+  // const flaskAPI = "http://192.168.10.3:5001";
+
 
   // States
   const [rooms, setRooms] = useState([]);
