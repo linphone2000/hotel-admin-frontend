@@ -13,27 +13,27 @@ export const DataProvider = ({ children }) => {
   const flaskAPI = "http://localhost:5001";
   // const flaskAPI = "http://192.168.10.3:5001";
 
-
   // States
   const [rooms, setRooms] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState();
-  const [selectedHotelToDelete, setSelectedHotelToDelete] = useState();
-  const [selectedHotelName, setSelectedHotelName] = useState();
+  const [selectedHotelData, setSelectedHotelData] = useState(); // Hotel object
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [hotelLoading, setHotelLoading] = useState(true);
+  const [hotelLoading, setHotelLoading] = useState(true); // All hotels
+  const [hotelDataLoading, setHotelDataLoading] = useState(true); // Single Hotel
 
   // Fetch rooms
   useEffect(() => {
     const fetchRooms = async () => {
       try {
         const response = await axios.get(flaskAPI + "/rooms");
-        setRooms(response.data);
+        if (response.status == 200) {
+          setRooms(response.data);
+          setLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching rooms:", error);
-      } finally {
-        setLoading(false);
       }
     };
     if (loading == true) {
@@ -46,11 +46,12 @@ export const DataProvider = ({ children }) => {
     const fetchHotels = async () => {
       try {
         const response = await axios.get(flaskAPI + "/hotels");
-        setHotels(response.data);
+        if (response.status == 200) {
+          setHotels(response.data);
+          setHotelLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching room:", error);
-      } finally {
-        setHotelLoading(false);
       }
     };
     if (hotelLoading == true) {
@@ -62,11 +63,12 @@ export const DataProvider = ({ children }) => {
   const fetchHotels = async () => {
     try {
       const response = await axios.get(flaskAPI + "/hotels");
-      setHotels(response.data);
+      if (response.status == 200) {
+        setHotels(response.data);
+        setHotelLoading(false);
+      }
     } catch (error) {
       console.error("Error fetching room:", error);
-    } finally {
-      setHotelLoading(false);
     }
   };
 
@@ -79,21 +81,55 @@ export const DataProvider = ({ children }) => {
           const response = await axios.get(
             flaskAPI + "/rooms/" + selectedHotel
           );
-          setSelectedRooms(response.data);
+          if (response.status == 200) {
+            setSelectedRooms(response.data);
+            setLoading(false);
+          }
         }
       } catch (error) {
         console.error("Error fetching rooms:", error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchRoomsByHotelId();
   }, [selectedHotel]);
 
+  // Fetch rooms by hotel ID manualy
+  const fetchRoomsByHotelId = async () => {
+    try {
+      setLoading(true);
+      if (selectedHotel) {
+        const response = await axios.get(flaskAPI + "/rooms/" + selectedHotel);
+        if (response.status == 200) {
+          setSelectedRooms(response.data);
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
+  };
+
+  // Fetch hotel by hotel ID
+  useEffect(() => {
+    const fetchHotelDataBySelection = async (hotelID) => {
+      try {
+        setHotelDataLoading(true);
+        const response = await axios.get(flaskAPI + "/hotels/" + hotelID);
+        if (response.status == 200) {
+          setSelectedHotelData(response.data);
+          setHotelDataLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching hotel:", error);
+      }
+    };
+    if (selectedHotel) {
+      fetchHotelDataBySelection(selectedHotel);
+    }
+  }, [selectedHotel]);
+
   // Test logging
-  // useEffect(() => {
-  //   console.log("Hotel to add room: " + selectedHotel);
-  // }, [selectedHotel]);
+  // console.log("Selected hotel: " + selectedHotel);
 
   // Memo
   const dataContextValue = useMemo(
@@ -101,16 +137,15 @@ export const DataProvider = ({ children }) => {
       rooms,
       hotels,
       fetchHotels,
+      fetchRoomsByHotelId,
       selectedHotel,
+      selectedHotelData,
       setSelectedHotel,
-      selectedHotelName,
-      setSelectedHotelName,
-      selectedHotelToDelete,
-      setSelectedHotelToDelete,
       selectedRooms,
       setSelectedRooms,
       loading,
       hotelLoading,
+      hotelDataLoading,
       setLoading,
       flaskAPI,
     }),
@@ -118,10 +153,10 @@ export const DataProvider = ({ children }) => {
       rooms,
       hotels,
       selectedHotel,
-      selectedHotelName,
+      selectedHotelData,
       selectedRooms,
-      selectedHotelToDelete,
       hotelLoading,
+      hotelDataLoading,
       loading,
     ]
   );

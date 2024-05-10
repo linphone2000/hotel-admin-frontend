@@ -6,6 +6,7 @@ import Room from "../Room/Room";
 import User from "../User/User";
 import "./RightPanel.css";
 import Navbar from "../Navbar/Navbar";
+import Booking from "../Booking/Booking";
 
 const RightPanel = () => {
   const { selectedPage } = useUIModal();
@@ -14,7 +15,7 @@ const RightPanel = () => {
     <div
       className={`min-h-screen
       w-screen
-      right-panel`}
+      right-panel overflow-x-auto`}
     >
       <Navbar />
       <AnimatePresence>
@@ -26,6 +27,8 @@ const RightPanel = () => {
           <Room />
         ) : selectedPage === "user" ? (
           <User />
+        ) : selectedPage === "booking" ? (
+          <Booking />
         ) : null}
       </AnimatePresence>
     </div>

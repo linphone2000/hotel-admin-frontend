@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useData } from "../../context/DataContext";
 
-const HotelRow = ({ hotel, index, handleRoomAdd }) => {
+const HotelRow = ({ hotel, index, handleHotelEdit }) => {
   // Context
   const { flaskAPI } = useData();
 
@@ -10,7 +10,6 @@ const HotelRow = ({ hotel, index, handleRoomAdd }) => {
 
   // Effect to preload image
   useEffect(() => {
-    console.log("Image loaded");
     if (hotel) {
       const image = new Image();
       image.src = `${flaskAPI}/get_image/${hotel.image}`;
@@ -46,23 +45,12 @@ const HotelRow = ({ hotel, index, handleRoomAdd }) => {
       <td className="py-3 px-6 text-left whitespace-nowrap">{hotel.address}</td>
       <td className="py-3 px-6">
         <div className="flex justify-around">
-          {/* Add room */}
-          <button
-            onClick={() => {
-              handleRoomAdd(hotel._id, hotel.name);
-            }}
-            className="text-slate-950 px-4 py-2 rounded-xl border border-green-500 transition-all hover:bg-green-500 flex items-center gap-2"
-          >
-            <i className="fa-solid fa-plus hover:cursor-pointer"></i>
-            <label className="hover:cursor-pointer">Add Room</label>
-          </button>
-
           {/* Edit Hotel */}
           <button
             onClick={() => {
-              handleRoomAdd(hotel._id, hotel.name);
+              handleHotelEdit(hotel._id);
             }}
-            className="text-slate-950 py-2 px-3 rounded-xl border border-blue-500 transition-all hover:bg-blue-500 flex items-center gap-2"
+            className="text-slate-950 py-2 px-3 rounded-xl border border-blue-500 transition-all hover:bg-blue-500 hover:text-white flex items-center gap-2"
           >
             <i className="fa-solid fa-pen-to-square hover:cursor-pointer"></i>
           </button>
@@ -72,7 +60,7 @@ const HotelRow = ({ hotel, index, handleRoomAdd }) => {
             onClick={() => {
               handleRoomAdd(hotel._id, hotel.name);
             }}
-            className="text-slate-950 py-2 px-3 rounded-xl border border-red-500 transition-all hover:bg-red-500 flex items-center gap-2"
+            className="text-slate-950 py-2 px-3 rounded-xl border border-red-500 transition-all hover:bg-red-500 hover:text-white flex items-center gap-2"
           >
             <i className="fa-solid fa-trash hover:cursor-pointer"></i>
           </button>

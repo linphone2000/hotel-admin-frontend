@@ -5,10 +5,11 @@ import { useUIModal } from "../../context/UIModalContext";
 import "./Hotel.css";
 import CustomToaster from "../CustomToaster/CustomToaster";
 import HotelRow from "./HotelRow";
+import Spinner from "../Spinner/Spinner";
 
 const Hotel = () => {
   // Context
-  const { hotels, setSelectedHotel, setSelectedHotelName, hotelLoading } =
+  const { hotels, setSelectedHotel, hotelLoading } =
     useData();
   const { handleOpenModal, handleSetModalForm } = useUIModal();
 
@@ -24,10 +25,9 @@ const Hotel = () => {
     handleSetModalForm("hoteladd");
     handleOpenModal();
   };
-  const handleRoomAdd = (hotelID, hotelName) => {
+  const handleHotelEdit = (hotelID) => {
     setSelectedHotel(hotelID);
-    setSelectedHotelName(hotelName);
-    handleSetModalForm("roomadd");
+    handleSetModalForm("hoteledit");
     handleOpenModal();
   };
   const handleSearch = () => {
@@ -53,7 +53,7 @@ const Hotel = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="w-full h-full relative overflow-x-auto bg-slate-200 transition-all"
+      className="w-full h-full relative overflow-x-auto bg-indigo-50 transition-all"
     >
       {/* Custom Toaster */}
       <AnimatePresence>
@@ -63,18 +63,18 @@ const Hotel = () => {
       </AnimatePresence>
 
       {/* Add hotel and search */}
-      <div className="px-10 pt-4 relative flex justify-between">
+      <div className="px-10 pt-4 relative items-center mb-4 flex justify-between">
         {/* Search box */}
-        <div className="flex items-center mb-4 relative">
+        <div className="flex items-center relative">
           <input
             type="text"
             ref={searchRef}
             placeholder="Search by hotel ..."
-            className="py-2 px-4 h-full text-gray-700 leading-tight focus:outline-none rounded-l-full"
+            className="py-2 px-4 h-10 text-gray-700 leading-tight focus:outline-none rounded-l-full"
           />
           <button
             onClick={handleSearch}
-            className="py-2 px-4 bg-blue-400 text-white rounded-r-full hover:bg-blue-500 focus:outline-none"
+            className="py-2 px-4 h-10 bg-indigo-500 text-white rounded-r-full transition hover:bg-indigo-600 focus:outline-none"
           >
             Search
           </button>
@@ -91,20 +91,20 @@ const Hotel = () => {
         <div>
           <button
             onClick={handleHotelAdd}
-            className="bg-green-500 text-slate-50 px-4 py-2 rounded-full border transition-all hover:bg-green-600 flex items-center gap-2"
+            className="bg-indigo-500 text-slate-50 px-4 py-2 rounded-full border transition-all hover:bg-indigo-600 flex items-center gap-2"
           >
             <i className="fa-solid fa-plus hover:cursor-pointer"></i>
             <label className="hover:cursor-pointer">Add Hotel</label>
           </button>
         </div>
       </div>
+      <hr className="border-gray-300"></hr>
 
       {/* Hotels */}
-      <hr className="border-gray-300"></hr>
       <div className="text-center w-1/2 mx-auto my-4">
         <label className="font-bold my-2">All Hotel List</label>
       </div>
-      <div className="px-10">
+      <div className="px-10 overflow-x-auto">
         <table className="w-full bg-white shadow-lg rounded-lg">
           <thead>
             <tr className="bg-gray-300 text-gray-700 uppercase text-sm leading-normal">
@@ -118,10 +118,8 @@ const Hotel = () => {
           <tbody>
             {hotelLoading ? (
               <tr>
-                <td colSpan="4" className="text-center py-4">
-                  <div className="flex justify-center items-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-                  </div>
+                <td colSpan="5" className="text-center py-4">
+                  <Spinner />
                 </td>
               </tr>
             ) : (
@@ -129,7 +127,7 @@ const Hotel = () => {
                 (hotel, index) => (
                   <HotelRow
                     key={index}
-                    handleRoomAdd={handleRoomAdd}
+                    handleHotelEdit={handleHotelEdit}
                     hotel={hotel}
                     index={index}
                   />

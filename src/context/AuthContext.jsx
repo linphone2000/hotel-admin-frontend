@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { all } from "axios";
 import React, {
   createContext,
   useState,
@@ -14,6 +14,10 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   // States
   const [currentUser, setCurrentUser] = useState(null);
+  const [userLoading, setUserLoading] = useState(false);
+  const [allUsers, setAllUsers] = useState([]);
+
+  // Context
   const { flaskAPI } = useData();
   const { showToast, handleCloseModal } = useUIModal();
 
@@ -68,17 +72,38 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("currentUser");
     showToast("info", "Loggout out!");
   };
+  // Get all users
+  useEffect(() => {
+    const getAllUsers = async () => {
+      const response = await axios.get(flaskAPI + "/users");
+      if (response.status == 200) {
+        setAllUsers(response.data);
+        setUserLoading(false);
+      } else {
+        setAllUsers([]);
+        setUserLoading(false);
+      }
+    };
+    getAllUsers();
+  }, []);
+
+  // Test
+  // if (allUsers.length > 0) {
+  //   console.log(allUsers);
+  // }
 
   // Memo
   const authContextValue = useMemo(
     () => ({
       currentUser,
+      allUsers,
+      userLoading,
       setCurrentUser,
       register,
       login,
       logout,
     }),
-    [currentUser]
+    [currentUser, userLoading, allUsers]
   );
 
   return (

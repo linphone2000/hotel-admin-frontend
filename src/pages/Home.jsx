@@ -5,6 +5,7 @@ import { useUIModal } from "../context/UIModalContext";
 import HotelAddForm from "../components/HotelAddForm/HotelAddForm";
 import Modal from "../components/Modal/Modal";
 import RoomAddForm from "../components/RoomAddForm/RoomAddForm";
+import HotelEditForm from "../components/HotelEditForm/HotelEditForm";
 
 const Home = () => {
   const { modalForm, isSideBarOpen } = useUIModal();
@@ -18,6 +19,10 @@ const Home = () => {
       ) : modalForm === "roomadd" ? (
         <Modal>
           <RoomAddForm />
+        </Modal>
+      ) : modalForm === "hoteledit" ? (
+        <Modal>
+          <HotelEditForm />
         </Modal>
       ) : null}
       {/* Left */}

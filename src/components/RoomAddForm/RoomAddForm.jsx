@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useData } from "../../context/DataContext";
 import axios from "axios";
 import { useUIModal } from "../../context/UIModalContext";
 
 const RoomAddForm = () => {
   // Context
-  const { selectedHotel, selectedHotelName, flaskAPI } = useData();
+  const { selectedHotel, fetchRoomsByHotelId, selectedHotelData, flaskAPI } =
+    useData();
   const { showToast, handleCloseModal } = useUIModal();
 
   // States
@@ -41,9 +42,14 @@ const RoomAddForm = () => {
       formData.append("price", price.current.value);
       formData.append("image", image);
       const response = await axios.post(route, formData);
-      showToast("success", response.data.message);
-      handleCloseModal();
-      resetForm();
+      if (response.status == 200) {
+        fetchRoomsByHotelId();
+        showToast("success", response.data.message);
+        handleCloseModal();
+        resetForm();
+      } else {
+        showToast("error", "Error adding room");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -61,27 +67,34 @@ const RoomAddForm = () => {
   return (
     <div className="h-full">
       {/* Heading */}
-      <h1 className="py-4 px-10 text-lg">
-        Add room to <span className="font-bold">{selectedHotelName}</span>
+      <h1 className="py-4 px-8 text-2xl bg-indigo-800 font-semibold text-indigo-50">
+        Add a Room to{" "}
+        <span className="font-bold">
+          {selectedHotelData && selectedHotelData.name}
+        </span>
       </h1>
-      <hr className=""></hr>
-      <form onSubmit={handleSubmit} className="px-10 py-5 w-full">
+
+      {/* Form */}
+      <form
+        onSubmit={handleSubmit}
+        className="px-8 py-6 bg-white rounded-lg shadow-md"
+      >
         {/* Room Number and Type */}
-        <div className="flex gap-2">
-          <div className="mb-4">
-            <label className="block mb-2">Room Number:</label>
+        <div className="flex gap-4 mb-6">
+          <div className="w-1/2">
+            <label className="block mb-1 text-gray-700">Room Number:</label>
             <input
               type="text"
               ref={roomNumber}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
-          <div className="mb-4 w-2/4">
-            <label className="block mb-2">Room Type:</label>
+          <div className="w-1/2">
+            <label className="block mb-1 text-gray-700">Room Type:</label>
             <select
               ref={roomType}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             >
               <option value="single">Single</option>
@@ -95,40 +108,40 @@ const RoomAddForm = () => {
         </div>
 
         {/* Description */}
-        <div className="mb-4">
-          <label className="block mb-2">Description:</label>
+        <div className="mb-6">
+          <label className="block mb-1 text-gray-700">Description:</label>
           <textarea
             ref={description}
-            className="border border-gray-300 px-4 py-2 rounded-md w-full"
+            className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
             required
           ></textarea>
         </div>
 
         {/* Numbers */}
-        <div className="flex gap-2">
-          <div className="mb-4">
-            <label className="block mb-2">Max Occupancy:</label>
+        <div className="flex gap-4 mb-6">
+          <div className="w-1/2">
+            <label className="block mb-1 text-gray-700">Max Occupancy:</label>
             <input
               type="number"
               ref={maxOccupancy}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block mb-2">Price:</label>
+          <div className="w-1/2">
+            <label className="block mb-1 text-gray-700">Price:</label>
             <input
               type="number"
               ref={price}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
         </div>
 
         {/* Image */}
-        <div className="mb-4">
-          <label className="block mb-2 text-lg font-semibold">
+        <div className="mb-6">
+          <label className="block mb-1 text-lg font-semibold text-gray-700">
             Upload Image:
           </label>
           <div className="flex items-center">
@@ -137,12 +150,12 @@ const RoomAddForm = () => {
               ref={fileInputRef}
               onChange={handleImageChange}
               className="opacity-0 w-0"
-              name="hotalImage"
+              name="hotelImage"
               required
             />
             <button
               onClick={handleFileUpload}
-              className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-md mr-2"
+              className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md mr-2 focus:outline-none focus:bg-indigo-600"
             >
               Choose File
             </button>
@@ -162,7 +175,7 @@ const RoomAddForm = () => {
         <div className="text-center">
           <button
             type="submit"
-            className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-md"
+            className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:bg-indigo-600"
           >
             Add Room
           </button>

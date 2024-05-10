@@ -17,7 +17,7 @@ const Sidebar = () => {
       animate={{ opacity: 1, width: "25%" }}
       exit={{ opacity: 0, width: 0 }}
       transition={{ duration: 0.1 }}
-      className={`min-h-screen max-h-screen -mb-12 bg-cyan-900 sticky top-0 `}
+      className={`min-h-screen max-h-screen -mb-12 bg-indigo-900 sticky top-0 `}
     >
       <div className="infomation-div flex flex-row w-full my-4 pl-4 gap-4">
         <img
@@ -25,7 +25,7 @@ const Sidebar = () => {
           src="profile.jpeg"
         />
         <div className="flex flex-col justify-center gap-2 text-slate-50">
-          <h1 className="font-semibold">U Thein Kyaw</h1>
+          <h1 className="font-semibold">Ga Tone Lay</h1>
           <p className="relative text-xs">
             Admin{" "}
             <i className="absolute -top-2 text-green-400 animate-pulse text-xs fa-solid fa-circle"></i>
@@ -39,34 +39,42 @@ const Sidebar = () => {
         <button
           onClick={() => handlePageChange("dashboard")}
           className={`pl-6 py-4 text-slate-50 flex gap-4 items-center ${
-            selectedPage == "dashboard" ? "bg-slate-200 text-slate-950" : ""
-          }  hover:bg-slate-200 hover:text-slate-950 transition-all`}
+            selectedPage == "dashboard" ? "bg-indigo-50 text-slate-950" : ""
+          }  hover:bg-indigo-50 hover:text-slate-950 transition-all`}
         >
           <i className="fa-solid fa-chart-line "></i>Dashboard
         </button>
         <button
           onClick={() => handlePageChange("hotel")}
           className={`pl-6 py-4 text-slate-50 flex gap-4 items-center ${
-            selectedPage == "hotel" ? "bg-slate-200 text-slate-950" : ""
-          }  hover:bg-slate-200 hover:text-slate-950 transition-all`}
+            selectedPage == "hotel" ? "bg-indigo-50 text-slate-950" : ""
+          }  hover:bg-indigo-50 hover:text-slate-950 transition-all`}
         >
           <i className="fa-solid fa-hotel "></i>Hotels Management
         </button>
         <button
           onClick={() => handlePageChange("room")}
           className={`pl-6 py-4 text-slate-50 flex gap-4 items-center ${
-            selectedPage == "room" ? "bg-slate-200 text-slate-950" : ""
-          }  hover:bg-slate-200 hover:text-slate-950 transition-all`}
+            selectedPage == "room" ? "bg-indigo-50 text-slate-950" : ""
+          }  hover:bg-indigo-50 hover:text-slate-950 transition-all`}
         >
           <i className="fa-solid fa-bed "></i>Rooms Management
         </button>
         <button
           onClick={() => handlePageChange("user")}
           className={`pl-6 py-4 text-slate-50 flex gap-4 items-center ${
-            selectedPage == "user" ? "bg-slate-200 text-slate-950" : ""
-          }  hover:bg-slate-200 hover:text-slate-950 transition-all`}
+            selectedPage == "user" ? "bg-indigo-50 text-slate-950" : ""
+          }  hover:bg-indigo-50 hover:text-slate-950 transition-all`}
         >
           <i className="fa-solid fa-users "></i>Users Management
+        </button>
+        <button
+          onClick={() => handlePageChange("booking")}
+          className={`pl-6 py-4 text-slate-50 flex gap-4 items-center ${
+            selectedPage == "booking" ? "bg-indigo-50 text-slate-950" : ""
+          }  hover:bg-indigo-50 hover:text-slate-950 transition-all`}
+        >
+          <i className="fa-solid fa-address-book"></i>Booking Management
         </button>
       </div>
     </motion.div>

@@ -38,6 +38,8 @@ export const UIModalProvider = ({ children }) => {
     }
   };
 
+  // console.log("Rendered");
+
   // Memo
   const UIModalContextValue = useMemo(
     () => ({

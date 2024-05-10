@@ -7,7 +7,7 @@ const CustomToaster = ({ handleClear, searchRef }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -1 }}
       transition={{ duration: 0.25 }}
-      className="mytoaster z-10 flex absolute transition-all p-4 justify-center items-center w-1/3 bg-slate-50 shadow-lg rounded-lg"
+      className="mytoaster z-10 flex absolute transition-all p-4 justify-center items-center w-1/3 bg-indigo-50 shadow-lg rounded-lg"
     >
       <label className="">
         <i className="fa-solid fa-exclamation mx-2 text-lg text-red-500"></i>

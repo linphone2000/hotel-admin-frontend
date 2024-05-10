@@ -4,7 +4,7 @@ import "./Modal.css";
 import { useUIModal } from "../../context/UIModalContext";
 
 const Modal = ({ children }) => {
-  const { handleCloseModal, isModalOpen } = useUIModal();
+  const { handleCloseModal, isModalOpen, modalForm } = useUIModal();
 
   const closeModal = () => {
     handleCloseModal();
@@ -18,7 +18,9 @@ const Modal = ({ children }) => {
       transition={{ duration: 0.3 }}
     >
       <motion.div
-        className={`modal-box ${isModalOpen ? "active" : ""}`}
+        className={`modal-box ${isModalOpen ? "active" : ""} ${
+          modalForm == "hoteladd" ? "h-5/6 w-4/6" : "hoteledit" && "h-5/6 w-4/6"
+        }`}
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: isModalOpen ? 1 : 0, y: isModalOpen ? 0 : -50 }}
         transition={{ duration: 0.3 }}

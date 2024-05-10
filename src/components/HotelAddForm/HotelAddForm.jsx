@@ -108,109 +108,100 @@ const HotelAddForm = () => {
 
   return (
     <>
-      <div className="text-center py-3">
-        <h1 className="text-lg font-bold">Add a new hotel</h1>
+      <div className="text-center bg-indigo-800 py-6">
+        <h1 className="text-3xl font-bold text-indigo-50">Add a New Hotel</h1>
       </div>
-      <hr className="border-t border-gray-100 w-full" />
-      <form className="px-12 py-4" onSubmit={handleSubmit}>
-        {/* Left */}
-        <div className="grid grid-cols-2 gap-2">
+      <hr className="border-t border-gray-200 w-full" />
+      <form
+        className="px-8 py-6 bg-gray-50 rounded-lg shadow-md"
+        onSubmit={handleSubmit}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="mb-4">
-            <label className="block mb-2">Name:</label>
+            <label className="block mb-1 text-gray-600">Name:</label>
             <input
               type="text"
               ref={nameRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block mb-2">City:</label>
+            <label className="block mb-1 text-gray-600">City:</label>
             <input
               type="text"
               ref={cityRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block mb-2">Address:</label>
+            <label className="block mb-1 text-gray-600">Address:</label>
             <input
               type="text"
               ref={addressRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
-
-          {/* Right */}
           <div className="mb-4">
-            <label className="block mb-2">Rating:</label>
+            <label className="block mb-1 text-gray-600">Rating:</label>
             <input
               type="number"
               ref={ratingRef}
               min="0"
               max="5"
               step="0.1"
-              className="border border-gray-300 px-4 py-2 rounded-md w-full"
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
-
-          {/* Check in & out */}
-          <div className="flex gap-2">
-            <div className="mb-4 w-full">
-              <label className="block mb-2">Check-in Time:</label>
-              <input
-                type="time"
-                ref={checkInTimeRef}
-                className="border border-gray-300 px-4 py-2 rounded-md w-full"
-                required
-              />
-            </div>
-            <div className="mb-4 w-full">
-              <label className="block mb-2">Check-out Time:</label>
-              <input
-                type="time"
-                ref={checkOutTimeRef}
-                className="border border-gray-300 px-4 py-2 rounded-md w-full"
-                required
-              />
-            </div>
-          </div>
-          {/* Contact */}
-          <div className=" flex gap-2">
-            <div className="mb-4">
-              <label className="block mb-2">Hotel Email:</label>
-              <input
-                type="email"
-                ref={hotelEmailRef}
-                className="border border-gray-300 px-4 py-2 rounded-md w-full"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2">Hotel Phone:</label>
-              <input
-                type="tel"
-                ref={hotelPhoneRef}
-                className="border border-gray-300 px-4 py-2 rounded-md w-full"
-                required
-              />
-            </div>
-          </div>
-
           <div className="mb-4">
-            <label className="block mb-2">Description:</label>
+            <label className="block mb-1 text-gray-600">Check-in Time:</label>
+            <input
+              type="time"
+              ref={checkInTimeRef}
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 text-gray-600">Check-out Time:</label>
+            <input
+              type="time"
+              ref={checkOutTimeRef}
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 text-gray-600">Hotel Email:</label>
+            <input
+              type="email"
+              ref={hotelEmailRef}
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 text-gray-600">Hotel Phone:</label>
+            <input
+              type="tel"
+              ref={hotelPhoneRef}
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
+              required
+            />
+          </div>
+          <div className="col-span-2 mb-4">
+            <label className="block mb-1 text-gray-600">Description:</label>
             <textarea
               ref={descriptionRef}
-              className="border border-gray-300 px-4 py-2 rounded-md w-full "
+              className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-indigo-500"
               required
             ></textarea>
           </div>
-          {/* Image */}
-          <div className="mb-4 flex flex-col justify-center items-center">
-            <label className="block mb-2 text-lg font-semibold">
+          <div className="col-span-2 mb-4 flex flex-col justify-center items-center">
+            <label className="block mb-1 text-gray-600 text-lg font-semibold">
               Upload Image:
             </label>
             <div className="flex items-center">
@@ -219,12 +210,12 @@ const HotelAddForm = () => {
                 ref={fileInputRef}
                 onChange={handleImageChange}
                 className="opacity-0 w-0"
-                name="hotalImage"
+                name="hotelImage"
                 required
               />
               <button
                 onClick={handleFileUpload}
-                className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-md mr-2"
+                className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-md mr-2 focus:outline-none focus:bg-indigo-600"
               >
                 Choose File
               </button>
@@ -240,30 +231,28 @@ const HotelAddForm = () => {
             </div>
           </div>
         </div>
-
-        {/* Amenities */}
-        <label className="block mb-2">Select Amenities:</label>
-        <div className="mb-4 grid grid-cols-5 gap-1">
-          {predefinedAmenities.map((amenity, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={() => toggleAmenitySelection(amenity)}
-              className={`border border-gray-300 px-4 py-2 rounded-md transition-colors hover:border-green-500 ${
-                amenities.includes(amenity)
-                  ? "bg-green-500 text-white"
-                  : "bg-white text-gray-700"
-              }`}
-            >
-              {amenity}
-            </button>
-          ))}
+        <div className="mb-4">
+          <label className="block mb-1 text-gray-600">Select Amenities:</label>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+            {predefinedAmenities.map((amenity, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => toggleAmenitySelection(amenity)}
+                className={`border border-gray-300 px-4 py-2 rounded-md transition-colors hover:border-indigo-500 ${
+                  amenities.includes(amenity)
+                    ? "bg-indigo-500 text-white"
+                    : "bg-white text-gray-700"
+                } focus:outline-none focus:border-indigo-500`}
+              >
+                {amenity}
+              </button>
+            ))}
+          </div>
         </div>
-
-        {/* Add */}
         <button
           type="submit"
-          className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md"
+          className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-md focus:outline-none focus:bg-indigo-600"
         >
           Add Hotel
         </button>
