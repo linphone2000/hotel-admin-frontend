@@ -15,8 +15,10 @@ const Room = () => {
     selectedHotel,
     setSelectedHotel,
     selectedHotelData,
+    setSelectedRoom,
     setSelectedRooms,
     selectedRooms,
+    fetchRoom,
     loading,
     hotels,
     flaskAPI,
@@ -45,10 +47,14 @@ const Room = () => {
     handleOpenModal();
   };
 
+  // Handle Room Edit
+  const handleRoomEdit = (roomID) => {
+    setSelectedRoom(roomID);
+    handleSetModalForm("roomedit");
+    handleOpenModal();
+  };
+
   // Test
-  // console.log(selectedOption);
-  // console.log(hotels);
-  // Options for React Select
 
   const options = hotels.map((hotel) => ({
     value: hotel._id,
@@ -77,33 +83,30 @@ const Room = () => {
       {/* Room list */}
       <div className="">
         {/* Heading */}
-        {selectedRooms.length > 0 && (
-          <div className="text-xl flex items-center justify-between px-10 my-4">
-            <p className="text-gray-600">
-              Rooms Information of:{" "}
-              <span className="font-semibold">
-                {selectedHotelData && selectedHotelData.name}
-              </span>
-            </p>
-            {/* Add room */}
-            {selectedHotelData && (
-              <button
-                onClick={() => {
-                  handleRoomAdd(selectedHotel);
-                }}
-                className="bg-indigo-500 text-slate-50 px-4 py-2 rounded-full border transition-all hover:bg-indigo-600 flex items-center gap-2"
-              >
-                <i className="fa-solid fa-plus hover:cursor-pointer"></i>
-                <label className="hidden md:block hover:cursor-pointer">
-                  Add Room
-                </label>
-              </button>
-            )}
-          </div>
-        )}
-
+        {/* Room info */}
+        <div className="flex items-center justify-between px-10 my-4">
+          <p className="text-xl text-gray-600">
+            Rooms Information of:{" "}
+            <span className="font-semibold">
+              {selectedHotelData && selectedHotelData.name}
+            </span>
+          </p>
+          {/* Add room */}
+          {selectedHotelData && (
+            <button
+              onClick={() => {
+                handleRoomAdd(selectedHotel);
+              }}
+              className="bg-indigo-500 text-slate-50 px-4 py-2 rounded-full border transition-all hover:bg-indigo-600 flex items-center gap-2"
+            >
+              <i className="fa-solid fa-plus hover:cursor-pointer"></i>
+              <label className="hidden md:block hover:cursor-pointer">
+                Add Room
+              </label>
+            </button>
+          )}
+        </div>
         <hr className="my-4 bg-gray-300"></hr>
-
         {/* Rooms */}
         <div className="px-10 overflow-x-auto">
           <table className="w-full bg-white shadow-lg rounded-lg">
@@ -127,6 +130,9 @@ const Room = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Reserved Dates
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -138,7 +144,11 @@ const Room = () => {
                 </tr>
               ) : selectedRooms.length > 0 ? (
                 selectedRooms.map((room) => (
-                  <RoomRow key={room._id} room={room} />
+                  <RoomRow
+                    handleRoomEdit={handleRoomEdit}
+                    key={room._id}
+                    room={room}
+                  />
                 ))
               ) : selectedHotel && selectedRooms.length == 0 ? (
                 <tr>

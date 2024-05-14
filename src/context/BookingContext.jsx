@@ -6,7 +6,6 @@ import React, {
   useMemo,
   useEffect,
 } from "react";
-import { useAuth } from "./AuthContext";
 import { useData } from "./DataContext";
 import { useUIModal } from "./UIModalContext";
 
@@ -14,7 +13,6 @@ const BookingContext = createContext();
 
 export const BookingProvider = ({ children }) => {
   // Context
-  const { currentUser } = useAuth();
   const { flaskAPI } = useData();
   const { showToast } = useUIModal();
 
@@ -22,7 +20,7 @@ export const BookingProvider = ({ children }) => {
   const [bookings, setBookings] = useState([]);
   const [bookingsLoading, setBookingLoading] = useState(true);
 
-  // Fetch bookings by user id
+  // Fetch bookings
   useEffect(() => {
     const getBookings = async () => {
       try {
@@ -38,10 +36,8 @@ export const BookingProvider = ({ children }) => {
         setBookingLoading(false);
       }
     };
-    if (currentUser) {
-      getBookings();
-    }
-  }, [currentUser]);
+    getBookings();
+  }, []);
 
   // Handlers
   // console.log("Rendered");

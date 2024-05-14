@@ -6,7 +6,8 @@ import axios from "axios";
 
 const HotelEditForm = () => {
   // Context
-  const { selectedHotelData, setSelectedHotel, hotelDataLoading, fetchHotels } = useData();
+  const { selectedHotelData, setSelectedHotel, hotelDataLoading, fetchHotels } =
+    useData();
   const { flaskAPI } = useData();
   const { showToast, handleCloseModal } = useUIModal();
 
@@ -84,32 +85,39 @@ const HotelEditForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", nameRef.current.value);
-      formDataToSend.append("city", cityRef.current.value);
-      formDataToSend.append("address", addressRef.current.value);
-      formDataToSend.append("description", descriptionRef.current.value);
-      formDataToSend.append("rating", ratingRef.current.value);
-      formDataToSend.append("checkInTime", checkInTimeRef.current.value);
-      formDataToSend.append("checkOutTime", checkOutTimeRef.current.value);
-      formDataToSend.append("hotelEmail", hotelEmailRef.current.value);
-      formDataToSend.append("hotelPhone", hotelPhoneRef.current.value);
-      formDataToSend.append("image", image);
-      amenities.forEach((amenity) => {
-        formDataToSend.append("amenities", amenity);
-      });
-
-      const response = await axios.post(
-        flaskAPI + "/hotels_edit/" + selectedHotelData._id,
-        formDataToSend
-      );
-      if (response.status != 200) {
-        showToast("error", "Hotel update failed!");
+      if (amenities.length == 0) {
+        showToast("info", "Amenities can't be none, choose at least two");
       } else {
-        showToast("success", "Hotel updated!");
-        handleCloseModal();
-        setSelectedHotel(null);
-        fetchHotels();
+        if (condition) {
+        } else {
+          const formDataToSend = new FormData();
+          formDataToSend.append("name", nameRef.current.value);
+          formDataToSend.append("city", cityRef.current.value);
+          formDataToSend.append("address", addressRef.current.value);
+          formDataToSend.append("description", descriptionRef.current.value);
+          formDataToSend.append("rating", ratingRef.current.value);
+          formDataToSend.append("checkInTime", checkInTimeRef.current.value);
+          formDataToSend.append("checkOutTime", checkOutTimeRef.current.value);
+          formDataToSend.append("hotelEmail", hotelEmailRef.current.value);
+          formDataToSend.append("hotelPhone", hotelPhoneRef.current.value);
+          formDataToSend.append("image", image);
+          amenities.forEach((amenity) => {
+            formDataToSend.append("amenities", amenity);
+          });
+
+          const response = await axios.post(
+            flaskAPI + "/hotels_edit/" + selectedHotelData._id,
+            formDataToSend
+          );
+          if (response.status != 200) {
+            showToast("error", "Hotel update failed!");
+          } else {
+            showToast("success", "Hotel updated!");
+            handleCloseModal();
+            setSelectedHotel(null);
+            fetchHotels();
+          }
+        }
       }
     } catch (error) {
       console.error("Error:", error);

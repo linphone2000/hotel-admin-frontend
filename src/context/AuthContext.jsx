@@ -13,65 +13,71 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   // States
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentAdmin, setCurrentAdmin] = useState(null);
   const [userLoading, setUserLoading] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
 
   // Context
   const { flaskAPI } = useData();
-  const { showToast, handleCloseModal } = useUIModal();
+  const { showToast } = useUIModal();
 
+  // Fetching for logged in admin
   useEffect(() => {
-    const storedUser = localStorage.getItem("currentUser");
+    const storedUser = localStorage.getItem("currentAdmin");
     if (storedUser) {
-      // console.log(JSON.parse(storedUser));
-      setCurrentUser(JSON.parse(storedUser));
+      setCurrentAdmin(JSON.parse(storedUser));
     }
   }, []);
-
-  useEffect(() => {
-    if (currentUser) {
-      handleCloseModal();
-    }
-  }, [currentUser]);
 
   // Handlers
   // Register
   const register = async (userData) => {
-    const username = userData.username;
-    const password = userData.password;
-    const fullName = userData.fullName;
-    const phone = userData.phone;
-    const address = userData.address;
-    const response = await axios.post(flaskAPI + "/register", {
-      username,
-      password,
-      fullName,
-      phone,
-      address,
-    });
-    return response;
+    try {
+      const { email, password, fullName, phone, address } = userData;
+      // Form Data
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("fullName", fullName);
+      formData.append("phone", phone);
+      formData.append("address", address);
+
+      const response = await axios.post(`${flaskAPI}/adminregister`, formData);
+      return response;
+    } catch (error) {
+      console.error("Error registering user:", error);
+      throw error;
+    }
   };
+
   // Login
-  const login = async (username, password) => {
-    const response = await axios.post(flaskAPI + "/login", {
-      username,
-      password,
-    });
+  const login = async (userData) => {
+    const { email, password } = userData;
+    console.log(userData);
+    // Form Data
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    const response = await axios.post(flaskAPI + "/adminlogin", formData);
     if (response.data.user) {
-      setCurrentUser(response.data.user);
-      localStorage.setItem("currentUser", JSON.stringify(response.data.user));
+      const user = response.data.user;
+      setCurrentAdmin(user);
+      localStorage.setItem("currentAdmin", JSON.stringify(user));
       showToast("success", response.data.message);
+    } else if (response.status == 204) {
+      showToast("error", "User doesn't exists");
     } else {
       showToast("error", response.data.message);
     }
   };
+
   // Logout
   const logout = () => {
-    setCurrentUser(null);
-    localStorage.removeItem("currentUser");
+    setCurrentAdmin(null);
+    localStorage.removeItem("currentAdmin");
     showToast("info", "Loggout out!");
   };
+
   // Get all users
   useEffect(() => {
     const getAllUsers = async () => {
@@ -95,15 +101,15 @@ export const AuthProvider = ({ children }) => {
   // Memo
   const authContextValue = useMemo(
     () => ({
-      currentUser,
+      currentAdmin,
       allUsers,
       userLoading,
-      setCurrentUser,
+      setCurrentAdmin,
       register,
       login,
       logout,
     }),
-    [currentUser, userLoading, allUsers]
+    [currentAdmin, userLoading, allUsers]
   );
 
   return (

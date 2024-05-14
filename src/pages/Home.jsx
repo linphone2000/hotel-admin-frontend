@@ -6,12 +6,17 @@ import HotelAddForm from "../components/HotelAddForm/HotelAddForm";
 import Modal from "../components/Modal/Modal";
 import RoomAddForm from "../components/RoomAddForm/RoomAddForm";
 import HotelEditForm from "../components/HotelEditForm/HotelEditForm";
+import { useAuth } from "../context/AuthContext";
+import AuthForm from "../components/AuthForm/AuthForm";
+import RoomEdit from "./RoomEdit";
 
 const Home = () => {
   const { modalForm, isSideBarOpen } = useUIModal();
+  const { currentAdmin } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-row transition-all">
+      {/* Modals */}
       {modalForm === "hoteladd" ? (
         <Modal>
           <HotelAddForm />
@@ -24,11 +29,24 @@ const Home = () => {
         <Modal>
           <HotelEditForm />
         </Modal>
+      ) : modalForm === "roomedit" ? (
+        <Modal>
+          <RoomEdit />
+        </Modal>
       ) : null}
-      {/* Left */}
-      <AnimatePresence>{isSideBarOpen && <Sidebar />}</AnimatePresence>
-      {/* Right */}
-      <RightPanel></RightPanel>
+
+      {currentAdmin ? (
+        <>
+          {/* Left */}
+          <AnimatePresence>{isSideBarOpen && <Sidebar />}</AnimatePresence>
+          {/* Right */}
+          <RightPanel></RightPanel>
+        </>
+      ) : (
+        <>
+          <AuthForm />
+        </>
+      )}
     </div>
   );
 };

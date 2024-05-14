@@ -35,7 +35,7 @@ const HotelRow = ({ hotel, index, handleHotelEdit }) => {
         ) : (
           <img
             className={`h-16 w-24 object-cover mx-auto rounded-md `}
-            src={`${flaskAPI}/get_image/${hotel.image}`}
+            src={`${hotelImage.src}`}
             alt="Hotel Image"
           />
         )}

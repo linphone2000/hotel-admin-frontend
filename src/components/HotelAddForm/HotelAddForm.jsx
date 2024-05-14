@@ -77,29 +77,33 @@ const HotelAddForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", nameRef.current.value);
-      formDataToSend.append("city", cityRef.current.value);
-      formDataToSend.append("address", addressRef.current.value);
-      formDataToSend.append("description", descriptionRef.current.value);
-      formDataToSend.append("rating", ratingRef.current.value);
-      formDataToSend.append("checkInTime", checkInTimeRef.current.value);
-      formDataToSend.append("checkOutTime", checkOutTimeRef.current.value);
-      formDataToSend.append("hotelEmail", hotelEmailRef.current.value);
-      formDataToSend.append("hotelPhone", hotelPhoneRef.current.value);
-      formDataToSend.append("image", image);
-      amenities.forEach((amenity) => {
-        formDataToSend.append("amenities", amenity);
-      });
-
-      const response = await axios.post(flaskAPI + "/hotels", formDataToSend);
-      if (response.status != 200) {
-        showToast("error", "Hotel Already Exists!");
+      if (amenities.length == 0) {
+        showToast("info", "Amenities can't be none, choose at least two");
       } else {
-        handleCloseModal();
-        fetchHotels();
-        resetForm();
-        showToast("success", "Hotel Created!");
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", nameRef.current.value);
+        formDataToSend.append("city", cityRef.current.value);
+        formDataToSend.append("address", addressRef.current.value);
+        formDataToSend.append("description", descriptionRef.current.value);
+        formDataToSend.append("rating", ratingRef.current.value);
+        formDataToSend.append("checkInTime", checkInTimeRef.current.value);
+        formDataToSend.append("checkOutTime", checkOutTimeRef.current.value);
+        formDataToSend.append("hotelEmail", hotelEmailRef.current.value);
+        formDataToSend.append("hotelPhone", hotelPhoneRef.current.value);
+        formDataToSend.append("image", image);
+        amenities.forEach((amenity) => {
+          formDataToSend.append("amenities", amenity);
+        });
+
+        const response = await axios.post(flaskAPI + "/hotels", formDataToSend);
+        if (response.status != 200) {
+          showToast("error", "Hotel Already Exists!");
+        } else {
+          handleCloseModal();
+          fetchHotels();
+          resetForm();
+          showToast("success", "Hotel Created!");
+        }
       }
     } catch (error) {
       console.error("Error:", error);

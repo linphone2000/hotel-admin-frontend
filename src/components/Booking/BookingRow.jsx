@@ -11,7 +11,7 @@ const BookingRow = ({ booking }) => {
 
   return (
     <tr className="border-b text-gray-700 border-gray-200 hover:bg-gray-100">
-      <td className="py-3 px-6 text-left">{booking.userEmail}</td>
+      <td className="py-3 px-6 text-left">{booking.userFullName}</td>
       <td className="py-3 px-6 text-left">{booking.roomNumber}</td>
       <td className="py-3 px-6 text-left">{booking.hotelName}</td>
       <td className="py-3 px-6 text-left">
