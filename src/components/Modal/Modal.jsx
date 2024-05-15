@@ -19,7 +19,11 @@ const Modal = ({ children }) => {
     >
       <motion.div
         className={`modal-box ${isModalOpen ? "active" : ""} ${
-          modalForm == "hoteladd" ? "h-5/6 w-4/6" : "hoteledit" && "h-5/6 w-4/6"
+          modalForm === "hoteladd" || modalForm === "hoteledit"
+            ? "h-5/6 w-4/6"
+            : modalForm === "delete"
+            ? "h-1/2 w-1/2"
+            : ""
         }`}
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: isModalOpen ? 1 : 0, y: isModalOpen ? 0 : -50 }}

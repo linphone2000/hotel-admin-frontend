@@ -46,7 +46,8 @@ const RoomEdit = () => {
     setImage(e.target.files[0]);
   };
 
-  const handleFileUpload = () => {
+  const handleFileUpload = (e) => {
+    e.preventDefault();
     fileInputRef.current.click();
   };
 

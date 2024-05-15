@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useData } from "../../context/DataContext";
 import { _capitalize } from "chart.js/helpers";
 
-const RoomRow = ({ room, handleRoomEdit }) => {
+const RoomRow = ({ room, handleRoomEdit, handleRoomDelete }) => {
   // Context
   const { flaskAPI } = useData();
 
@@ -68,14 +68,24 @@ const RoomRow = ({ room, handleRoomEdit }) => {
         )}
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <button
-          onClick={() => {
-            handleRoomEdit(room._id);
-          }}
-          className="text-slate-950 py-2 px-3 rounded-xl border border-blue-500 transition-all hover:bg-blue-500 hover:text-white flex items-center gap-2"
-        >
-          <i className="fa-solid fa-pen-to-square hover:cursor-pointer"></i>{" "}
-        </button>
+        <div className="flex gap-4 justify-center">
+          <button
+            onClick={() => {
+              handleRoomEdit(room._id);
+            }}
+            className="text-slate-950 py-2 px-3 rounded-xl border border-blue-500 transition-all hover:bg-blue-500 hover:text-white flex items-center gap-2"
+          >
+            <i className="fa-solid fa-pen-to-square hover:cursor-pointer"></i>{" "}
+          </button>
+          <button
+            onClick={() => {
+              handleRoomDelete(room._id, room.hotelID);
+            }}
+            className="text-slate-950 py-2 px-3 rounded-xl border border-red-500 transition-all hover:bg-red-500 hover:text-white flex items-center gap-2"
+          >
+            <i className="fa-solid fa-trash hover:cursor-pointer"></i>
+          </button>
+        </div>
       </td>
     </tr>
   );

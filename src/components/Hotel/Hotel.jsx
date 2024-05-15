@@ -9,8 +9,7 @@ import Spinner from "../Spinner/Spinner";
 
 const Hotel = () => {
   // Context
-  const { hotels, setSelectedHotel, hotelLoading } =
-    useData();
+  const { hotels, setSelectedHotel, hotelLoading } = useData();
   const { handleOpenModal, handleSetModalForm } = useUIModal();
 
   // Refs
@@ -28,6 +27,11 @@ const Hotel = () => {
   const handleHotelEdit = (hotelID) => {
     setSelectedHotel(hotelID);
     handleSetModalForm("hoteledit");
+    handleOpenModal();
+  };
+  const handleHotelDelete = (hotelID) => {
+    setSelectedHotel(hotelID);
+    handleSetModalForm("hoteldelete");
     handleOpenModal();
   };
   const handleSearch = () => {
@@ -128,6 +132,7 @@ const Hotel = () => {
                   <HotelRow
                     key={index}
                     handleHotelEdit={handleHotelEdit}
+                    handleHotelDelete={handleHotelDelete}
                     hotel={hotel}
                     index={index}
                   />

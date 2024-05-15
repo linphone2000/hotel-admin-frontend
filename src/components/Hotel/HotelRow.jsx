@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useData } from "../../context/DataContext";
 
-const HotelRow = ({ hotel, index, handleHotelEdit }) => {
+const HotelRow = ({ hotel, index, handleHotelEdit, handleHotelDelete }) => {
   // Context
   const { flaskAPI } = useData();
 
@@ -58,7 +58,7 @@ const HotelRow = ({ hotel, index, handleHotelEdit }) => {
           {/* Delete Hotel */}
           <button
             onClick={() => {
-              handleRoomAdd(hotel._id, hotel.name);
+              handleHotelDelete(hotel._id);
             }}
             className="text-slate-950 py-2 px-3 rounded-xl border border-red-500 transition-all hover:bg-red-500 hover:text-white flex items-center gap-2"
           >

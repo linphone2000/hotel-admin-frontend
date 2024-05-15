@@ -21,6 +21,7 @@ const Room = () => {
     fetchRoom,
     loading,
     hotels,
+    fetchRoomsByHotelId,
     flaskAPI,
   } = useData();
   const { handleSetModalForm, handleOpenModal } = useUIModal();
@@ -51,6 +52,14 @@ const Room = () => {
   const handleRoomEdit = (roomID) => {
     setSelectedRoom(roomID);
     handleSetModalForm("roomedit");
+    handleOpenModal();
+  };
+
+  // Handle Room Delete
+  const handleRoomDelete = (roomID, hotelID) => {
+    setSelectedHotel(hotelID);
+    setSelectedRoom(roomID);
+    handleSetModalForm("roomdelete");
     handleOpenModal();
   };
 
@@ -146,19 +155,20 @@ const Room = () => {
                 selectedRooms.map((room) => (
                   <RoomRow
                     handleRoomEdit={handleRoomEdit}
+                    handleRoomDelete={handleRoomDelete}
                     key={room._id}
                     room={room}
                   />
                 ))
               ) : selectedHotel && selectedRooms.length == 0 ? (
                 <tr>
-                  <td colSpan="6" className="p-4 font-semibold text-center">
+                  <td colSpan="7" className="p-4 font-semibold text-center">
                     <p>No rooms in this hotel {}</p>
                   </td>
                 </tr>
               ) : (
                 <tr>
-                  <td colSpan="6" className="p-4 font-semibold text-center">
+                  <td colSpan="7" className="p-4 font-semibold text-center">
                     <p>Please select a hotel</p>
                   </td>
                 </tr>

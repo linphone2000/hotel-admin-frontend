@@ -23,6 +23,7 @@ export const BookingProvider = ({ children }) => {
   // Fetch bookings
   useEffect(() => {
     const getBookings = async () => {
+      setBookingLoading(true);
       try {
         const response = await axios.get(flaskAPI + "/bookings");
         if (response.status == 200) {
@@ -39,12 +40,29 @@ export const BookingProvider = ({ children }) => {
     getBookings();
   }, []);
 
+  // Fetch bookings manually
+  const getBookings = async () => {
+    setBookingLoading(true);
+    try {
+      const response = await axios.get(flaskAPI + "/bookings");
+      if (response.status == 200) {
+        setBookings(response.data);
+      } else {
+        setBookings([]);
+      }
+    } catch (error) {
+      showToast("error", "Error fetching bookings");
+    } finally {
+      setBookingLoading(false);
+    }
+  };
+
   // Handlers
   // console.log("Rendered");
 
   // Memo
   const BookingContextValue = useMemo(
-    () => ({ bookings, bookingsLoading }),
+    () => ({ bookings, bookingsLoading, getBookings }),
     [bookings, bookingsLoading]
   );
 

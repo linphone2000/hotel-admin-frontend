@@ -9,6 +9,8 @@ import HotelEditForm from "../components/HotelEditForm/HotelEditForm";
 import { useAuth } from "../context/AuthContext";
 import AuthForm from "../components/AuthForm/AuthForm";
 import RoomEdit from "./RoomEdit";
+import RoomDeleteForm from "../components/RoomDeleteForm/RoomDeleteForm";
+import HotelDeleteForm from "../components/HotelDeleteForm/HotelDeleteForm";
 
 const Home = () => {
   const { modalForm, isSideBarOpen } = useUIModal();
@@ -32,6 +34,14 @@ const Home = () => {
       ) : modalForm === "roomedit" ? (
         <Modal>
           <RoomEdit />
+        </Modal>
+      ) : modalForm === "roomdelete" ? (
+        <Modal>
+          <RoomDeleteForm />
+        </Modal>
+      ) : modalForm === "hoteldelete" ? (
+        <Modal>
+          <HotelDeleteForm />
         </Modal>
       ) : null}
 

@@ -25,30 +25,41 @@ const RoomAddForm = () => {
     setImage(e.target.files[0]);
   };
 
-  const handleFileUpload = () => {
+  const handleFileUpload = (e) => {
+    e.preventDefault();
     fileInputRef.current.click();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const route = flaskAPI + "/rooms/";
-      const formData = new FormData();
-      formData.append("hotelID", selectedHotel);
-      formData.append("roomNumber", roomNumber.current.value);
-      formData.append("roomType", roomType.current.value);
-      formData.append("description", description.current.value);
-      formData.append("maxOccupancy", maxOccupancy.current.value);
-      formData.append("price", price.current.value);
-      formData.append("image", image);
-      const response = await axios.post(route, formData);
-      if (response.status == 200) {
-        fetchRoomsByHotelId();
-        showToast("success", response.data.message);
-        handleCloseModal();
-        resetForm();
+      if (
+        !roomNumber.current.value ||
+        !roomType.current.value ||
+        !description.current.value ||
+        !maxOccupancy.current.value ||
+        !price.current.value
+      ) {
+        showToast("error", "One or more field missing.");
       } else {
-        showToast("error", "Error adding room");
+        const route = flaskAPI + "/rooms/";
+        const formData = new FormData();
+        formData.append("hotelID", selectedHotel);
+        formData.append("roomNumber", roomNumber.current.value);
+        formData.append("roomType", roomType.current.value);
+        formData.append("description", description.current.value);
+        formData.append("maxOccupancy", maxOccupancy.current.value);
+        formData.append("price", price.current.value);
+        formData.append("image", image);
+        const response = await axios.post(route, formData);
+        if (response.status == 200) {
+          fetchRoomsByHotelId();
+          showToast("success", response.data.message);
+          handleCloseModal();
+          resetForm();
+        } else {
+          showToast("error", "Error adding room");
+        }
       }
     } catch (error) {
       console.error("Error:", error);

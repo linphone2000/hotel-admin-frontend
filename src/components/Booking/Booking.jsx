@@ -93,7 +93,7 @@ const Bookings = () => {
             </tr>
           </thead>
           <tbody className="">
-            {bookingLoading ? (
+            {bookings && bookings.length == 0 ? (
               <tr>
                 <td colSpan="6" className="text-center py-4">
                   <Spinner />

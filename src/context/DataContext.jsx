@@ -11,7 +11,7 @@ const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const flaskAPI = "http://localhost:5001";
-  // const flaskAPI = "http://192.168.10.3:5001";
+  // const flaskAPI = "https://following-blackbird-lpmz-a2088328.koyeb.app";
 
   // States
   const [rooms, setRooms] = useState([]);
@@ -78,7 +78,6 @@ export const DataProvider = ({ children }) => {
       }
     };
     if (selectedRoom) {
-      console.log(selectedRoom);
       fetchRoom();
     }
   }, [selectedRoom]);
@@ -93,37 +92,6 @@ export const DataProvider = ({ children }) => {
       if (response.status == 200) {
         setSelectedRoomData(response.data);
         setRoomDataLoading(false);
-      }
-    } catch (error) {
-      console.error("Error fetching room:", error);
-    }
-  };
-
-  // Fetch hotels on page load
-  useEffect(() => {
-    const fetchHotels = async () => {
-      try {
-        const response = await axios.get(flaskAPI + "/hotels");
-        if (response.status == 200) {
-          setHotels(response.data);
-          setHotelLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching room:", error);
-      }
-    };
-    if (hotelLoading == true) {
-      fetchHotels();
-    }
-  }, [hotelLoading]);
-
-  // Fetch hotels manual
-  const fetchHotels = async () => {
-    try {
-      const response = await axios.get(flaskAPI + "/hotels");
-      if (response.status == 200) {
-        setHotels(response.data);
-        setHotelLoading(false);
       }
     } catch (error) {
       console.error("Error fetching room:", error);
@@ -160,10 +128,45 @@ export const DataProvider = ({ children }) => {
         if (response.status == 200) {
           setSelectedRooms(response.data);
           setLoading(false);
+        } else {
+          setSelectedRooms([]);
+          setLoading(false);
         }
+        console.log("Rooms: " + selectedRoom);
       }
     } catch (error) {
       console.error("Error fetching rooms:", error);
+    }
+  };
+
+  // Fetch hotels on page load
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const response = await axios.get(flaskAPI + "/hotels");
+        if (response.status == 200) {
+          setHotels(response.data);
+          setHotelLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching room:", error);
+      }
+    };
+    if (hotelLoading == true) {
+      fetchHotels();
+    }
+  }, [hotelLoading]);
+
+  // Fetch hotels manual
+  const fetchHotels = async () => {
+    try {
+      const response = await axios.get(flaskAPI + "/hotels");
+      if (response.status == 200) {
+        setHotels(response.data);
+        setHotelLoading(false);
+      }
+    } catch (error) {
+      console.error("Error fetching room:", error);
     }
   };
 
