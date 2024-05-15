@@ -10,8 +10,8 @@ import axios from "axios";
 const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  const flaskAPI = "http://localhost:5001";
-  // const flaskAPI = "https://following-blackbird-lpmz-a2088328.koyeb.app";
+  // const flaskAPI = "http://localhost:5001";
+  const flaskAPI = "https://following-blackbird-lpmz-a2088328.koyeb.app";
 
   // States
   const [rooms, setRooms] = useState([]);
