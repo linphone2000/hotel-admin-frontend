@@ -62,7 +62,13 @@ const HotelsCountByCity = ({ hotels }) => {
     };
   }
 
-  return data && <Bar options={options} data={data}></Bar>;
+  return (
+    data && (
+      <div className="h-96 ps-4 flex items-center justify-center">
+        <Bar options={options} data={data}></Bar>
+      </div>
+    )
+  );
 };
 
 export default HotelsCountByCity;

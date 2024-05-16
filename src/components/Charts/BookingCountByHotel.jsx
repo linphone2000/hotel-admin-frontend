@@ -57,17 +57,23 @@ const BookingsCountByHotel = ({ bookings, hotels }) => {
   };
 
   const options = {
-    responsive: true,
-    scales: {
-      y: {
-        ticks: {
-          stepSize: 1,
-        },
-      },
-    },
+    // responsive: true,
+    // scales: {
+    //   y: {
+    //     ticks: {
+    //       stepSize: 1,
+    //     },
+    //   },
+    // },
   };
 
-  return data && <Doughnut options={options} data={data}></Doughnut>;
+  return (
+    data && (
+      <div className="h-96 flex justify-center">
+        <Doughnut options={options} data={data}></Doughnut>
+      </div>
+    )
+  );
 };
 
 export default BookingsCountByHotel;
